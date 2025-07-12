@@ -9,7 +9,7 @@ class IslamiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: IntroScreen.routeName,
       routes: {HomeScreen.routeName: (context) => HomeScreen(),
         IntroScreen.routeName: (context) => IntroScreen(),
         SuraDetailsScreen.routeName: (context) => SuraDetailsScreen()

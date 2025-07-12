@@ -1,6 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:islami_application/utils/app_colors.dart';
+
+import '../home/home_screen.dart';
 
 class IntroScreen extends StatefulWidget {
   static const String routeName = 'intro';
@@ -8,103 +10,90 @@ class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
 
   @override
-  IntroScreenState createState() => IntroScreenState();
+  State<IntroScreen> createState() => _IntroScreenState();
 }
 
-class IntroScreenState extends State<IntroScreen> {
+class _IntroScreenState extends State<IntroScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
-    Navigator.of(context).pushReplacementNamed('home');
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
   }
 
-  Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset(assetName, width: width);
+  Widget _buildImage(String assetName) {
+    return Image.asset(assetName, fit: BoxFit.contain);
   }
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0, color: Colors.white);
-
-    const pageDecoration = PageDecoration(
+    var pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(
-        fontSize: 28.0,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
+        fontSize: 24.0,
+        fontWeight: FontWeight.bold,
+        color: AppColors.primaryColor,
       ),
-      bodyTextStyle: bodyStyle,
-      bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      bodyTextStyle: TextStyle(fontSize: 20.0, color: AppColors.primaryColor),
+      imagePadding: EdgeInsets.only(top: 60),
+      contentMargin: EdgeInsets.symmetric(horizontal: 24),
       pageColor: Colors.transparent,
-      imagePadding: EdgeInsets.zero,
     );
 
     return Stack(
       children: [
-        Positioned.fill(
-          child: Image.asset(
-            'assets/images/Intro Screen (2).png',
-            fit: BoxFit.fill,
-          ),
+        Image.asset(
+          'assets/images/intro_screen_Bg.png',
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.fill,
         ),
         IntroductionScreen(
           key: introKey,
           globalBackgroundColor: Colors.transparent,
-          allowImplicitScrolling: true,
-          autoScrollDuration: 3000,
-          infiniteAutoScroll: true,
           pages: [
             PageViewModel(
-              title: "Fractional shares",
-              body:
-                  "Instead of having to buy an entire share, invest any amount you want.",
+              title: "Welcome to Islami",
+              body: "We Are Very Excited To Have You In Our Community",
+              image: _buildImage('assets/images/photo_1_intro.png'),
+              decoration: pageDecoration,
+            ),
+
+            PageViewModel(
+              title: "Reading the Quran",
+              body: "Read, and your Lord is the Most Generous",
+              image: _buildImage('assets/images/photo_2_intro.png'),
               decoration: pageDecoration,
             ),
             PageViewModel(
-              title: "Learn as you go",
-              body:
-                  "Download the Stockpile app and master the market with our mini-lesson.",
+              title: "Bearish",
+              body: "Praise the name of your Lord, the Most High",
+              image: _buildImage('assets/images/photo_3_intro.png'),
               decoration: pageDecoration,
             ),
             PageViewModel(
-              title: "Kids and teens",
+              title: "Holy Quran Radio",
               body:
-                  "Kids and teens can track their stocks 24/7 and place trades that you approve.",
+                  "You can listen to the Holy Quran Radio through the application for free and easily",
+              image: _buildImage('assets/images/photo_4_intro.png'),
               decoration: pageDecoration,
             ),
           ],
           onDone: () => _onIntroEnd(context),
-          onSkip: () => _onIntroEnd(context),
-          showSkipButton: true,
-          skip: const Text(
-            'Skip',
-            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
-          ),
-          next: const Icon(Icons.arrow_forward, color: Colors.white),
-          done: const Text(
-            'Done',
-            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
-          ),
-          curve: Curves.fastLinearToSlowEaseIn,
-          controlsMargin: const EdgeInsets.all(16),
-          controlsPadding:
-              kIsWeb
-                  ? const EdgeInsets.all(12.0)
-                  : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-          dotsDecorator: const DotsDecorator(
+          showBackButton: true,
+          back: Text('Back', style: TextStyle(color: AppColors.primaryColor)),
+          next: Text('Next', style: TextStyle(color: AppColors.primaryColor)),
+          done: Text('Finish', style: TextStyle(color: AppColors.primaryColor)),
+          dotsDecorator: DotsDecorator(
             size: Size(10.0, 10.0),
-            color: Color(0xFFBDBDBD),
+            color: Color(0xff707070),
             activeSize: Size(22.0, 10.0),
-            activeColor: Colors.white,
+            activeColor: AppColors.primaryColor,
             activeShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
             ),
           ),
-          dotsContainerDecorator: const ShapeDecoration(
-            color: Colors.black54,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            ),
-          ),
+          curve: Curves.fastLinearToSlowEaseIn,
         ),
       ],
     );

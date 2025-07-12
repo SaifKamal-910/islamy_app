@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:islami_application/home/tabs/quran/quran_resources.dart';
 import 'package:islami_application/home/tabs/quran/sura_details_screen.dart';
 import 'package:islami_application/home/tabs/quran/sura_item.dart';
 import 'package:islami_application/utils/app_assets.dart';
 import 'package:islami_application/utils/app_colors.dart';
 
-class QuranTab extends StatelessWidget {
+class QuranTab extends StatefulWidget {
   QuranTab({super.key});
 
+  @override
+  State<QuranTab> createState() => _QuranTabState();
+}
+
+class _QuranTabState extends State<QuranTab> {
   List<int> filterList = List.generate(114, (index) => index);
 
   @override
@@ -26,6 +32,7 @@ class QuranTab extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(color: AppColors.primaryColor),
+
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -35,6 +42,10 @@ class QuranTab extends StatelessWidget {
               hintText: 'Sura Name',
               hintStyle: TextStyle(color: AppColors.whiteColor),
             ),
+            onChanged: (newText) {
+              print(newText);
+              searchByNewText(newText);
+            },
           ),
           SizedBox(height: height * 0.02),
           Text(
@@ -136,5 +147,22 @@ class QuranTab extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void searchByNewText(String newText) {
+    List<int>filterSearchList = [];
+    for (int i = 0; i < QuranResources.englishQuranSuras.length; i++) {
+      if (QuranResources.englishQuranSuras[i].toLowerCase().contains(
+          newText.toLowerCase())) {
+        filterSearchList.add(i);
+      }
+      if (QuranResources.arabicQuranSuras[i].contains(newText)) {
+        filterSearchList.add(i);
+      }
+    }
+    filterList = filterSearchList;
+    setState(() {
+
+    });
   }
 }
